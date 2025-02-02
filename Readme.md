@@ -194,30 +194,6 @@ pytest
 
 ---
 
-## Deployment
-
-### Heroku
-
-1. Install the Heroku CLI.
-2. Log in to Heroku:
-   ```bash
-   heroku login
-   ```
-3. Create a new Heroku app:
-   ```bash
-   heroku create
-   ```
-4. Deploy the app:
-   ```bash
-   git push heroku main
-   ```
-
-### AWS (Optional)
-
-Use AWS Elastic Beanstalk or EC2 to deploy the application. Follow the official AWS documentation for detailed instructions.
-
----
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
