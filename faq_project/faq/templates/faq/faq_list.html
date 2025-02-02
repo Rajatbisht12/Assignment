@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="{{ current_lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">FAQs</h1>
+
+        <!-- Language selector -->
+        <div class="mb-3">
+            <select class="form-select w-auto" onchange="window.location.href='?lang=' + this.value">
+                <option value="en" {% if current_lang == 'en' %}selected{% endif %}>English</option>
+                <option value="hi" {% if current_lang == 'hi' %}selected{% endif %}>हिंदी</option>
+                <option value="bn" {% if current_lang == 'bn' %}selected{% endif %}>বাংলা</option>
+            </select>
+        </div>
+
+        <a href="{% url 'faq-create' %}" class="btn btn-primary mb-3">Add New FAQ</a>
+
+        <ul class="list-group">
+            {% for faq in faqs %}
+                <li class="list-group-item">
+                    <!-- Display translated question and answer based on the selected language -->
+                    <strong>
+                        {% if current_lang == 'en' %}
+                            {{ faq.question }}
+                        {% elif current_lang == 'hi' %}
+                            {{ faq.question_hi|default:faq.question }}
+                        {% elif current_lang == 'bn' %}
+                            {{ faq.question_bn|default:faq.question }}
+                        {% endif %}
+                    </strong><br>
+
+                    <div>
+                        {% if current_lang == 'en' %}
+                            {{ faq.answer }}
+                        {% elif current_lang == 'hi' %}
+                            {{ faq.answer_hi|default:faq.answer }}
+                        {% elif current_lang == 'bn' %}
+                            {{ faq.answer_bn|default:faq.answer }}
+                        {% endif %}
+                    </div>
+
+                    <!-- Display all translations for reference -->
+                    <div class="mt-3">
+                        <h6>All Translations:</h6>
+                        <ul>
+                            <li><strong>English:</strong> {{ faq.question }} - {{ faq.answer }}</li>
+                            <li><strong>Hindi:</strong> {{ faq.question_hi|default:"N/A" }} - {{ faq.answer_hi|default:"N/A" }}</li>
+                            <li><strong>Bengali:</strong> {{ faq.question_bn|default:"N/A" }} - {{ faq.answer_bn|default:"N/A" }}</li>
+                        </ul>
+                    </div>
+
+                    <!-- Edit and Delete buttons -->
+                    <div class="mt-2">
+                        <a href="{% url 'faq-update' faq.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'faq-delete' faq.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
